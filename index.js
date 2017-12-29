@@ -42,8 +42,8 @@ const CATALOG = [{
   bookISBN: "9780060245863",
 }];
 
-var n = 0;
-var bookItem = CATALOG[n];
+
+
 
 /*
   2. Make a global constant called INVENTORY which is an object whose keys are the ISBN numbers of the books in the CATALOG array.
@@ -76,12 +76,8 @@ const INVENTORY = {
 */
 
 function describeBook(book) {
-let book = $(".bookDesc").html(`
-  <li><h4>Title: ${CATALOG[n].bookTitle}</h4></li>
-  <li><h4>Author: ${CATALOG[n].bookAuthorLastName}, ${CATALOG[n].bookAuthorFirstName}</h4></li>
-  <li><h4>Published: ${CATALOG[n].bookYear}</h4></li>
-  <li><h4>ISBN: ${CATALOG[n].bookISBN}</h4></li>
-  `);
+  let stock = INVENTORY[book.bookISBN];
+  return `<li>ISBN: ${book.bookISBN} - <strong class="title">${book.bookTitle}</strong> by <em class="author"> ${book.bookAuthorLastName},  ${book.bookAuthorFirstName}</em>,  [${book.bookYear}] -- <strong>(${stock.numberOfCopies - stock.numberCheckedOut} of ${stock.numberOfCopies} available)</strong></li>`;
   console.log("describeBook ran");
   
 }
@@ -94,13 +90,11 @@ let book = $(".bookDesc").html(`
   Pass each book to your "describeBook" function and use its output as the HTML to add to the page.
 */
 
+  
+
 function renderBooks() {
-  //for(i=0; i<CATALOG.length; i++) {
-  $(".renderList").html(`
-  <ul>
-    <li>${n}</li>
-    </ul>
-  `);
+ let bookItems = CATALOG.map(describeBook);
+ $(".renderList").html(bookItems.join(''));
   console.log("renderBook ran")
   
 }

@@ -15,51 +15,29 @@
   </header>
 
   <main>
-   
-    <div class="renderList">
-     
-    </div>
     <div class="inputBook">
-      
+    
       <form>
         <fieldset>
           <h2>Add a Title</h2>
-          <label>Use this form to add a book to the library database.</label>
-          <p>
-            <h4>
-              <label for="inputTitle">Title: </label>
-              <input type=text name="inputTitle" alt="Title" placeholder="Goodnight Moon" size="50" required>
-          </p>
-          </h4>
-          <p>
-            <h4>
-              <label for="inputAuthor">Author Name (Last, First): </label>
-              <input type=text name="inputAuthorLast" alt="Author Last Name" placeholder="Brown" size="35" required>
-              <input type=text name="inputAuthorFirst" alt="Author First Name" placeholder="Margaret Wise" size="35" required>
-          </p>
-          </h4>
-          <p>
-            <h4>
-              <label for="inputYear">Year Published: </label>
-              <input type=text name="inputYear" alt="Year" minlength="4" maxlength="4" placeholder="1947" size="4" required>
-          </p>
-          </h4>
-          <p>
-            <h4>
-              <label for="inputISBN">ISBN: </label>
-              <input type=text name="inputISBN" alt="ISBN" minlength="9" placeholder="9780060775858" size="20" required>
-          </p>
-          </h4>
-          <p>
-            <h4>
-              <label for="inputISBN">Quantity: </label>
-              <input type=number name="inputQty" alt="quantity" placeholder="1" minlength="1" maxlength="4" required>
-          </p>
-          </h4>
-          <input type=submit name="submitBook" alt="submit" value="Add Book">
-          </p>
+              <label>Use this form to add a book to the library database.</label>
+              <p>
+              <input type=text id="inputTitle" alt="Title" placeholder="Book Title">
+              <input type=number id="inputYear" alt="Year"placeholder="Year"> 
+              <input type=text id="inputAuthorLast" alt="Author Last Name" placeholder="Author Last Name">
+              <input type=text id="inputAuthorFirst" alt="Author First Name" placeholder="Author First Name">
+              <input type=text id="inputISBN" alt="ISBN" placeholder="ISBN">
+              <input type=number id="inputQty" alt="quantity" placeholder="Qty to Add">
+              <button type=submit id="submitBook" alt="submit" >Submit</button>
+              </p>
         </fieldset>
       </form>
+    </div>
+    <div class="stockList">
+      <h2>Books in Stock</h2>
+     <ul class = "renderList">
+
+     </ul>
     </div>
   </main>
   <!--

@@ -4,28 +4,75 @@
 
 body {
     display: block;
-    max-width: 960px;
+    max-width: 800px;
     margin: 0 auto;
     font-family: 'Alegreya Sans', sans-serif;
 }
 
 header {
-    width: 80%;
+    margin: 0 auto;
+    text-align: center;
 }
+
 fieldset {
     border: none;
+}
+
+form input,
+form button {
+    box-sizing: border-box;
+    float: left;
+    font-size: 18px;
+}
+
+.title, .author {
+    font-size: 1.2em;
+}
+
+.title {
+    text-decoration-line: underline;
+}
+
+#inputTitle {
     width: 80%;
 }
 
+#inputYear {
+    width: 20%;
+}
+
+#inputAuthorLast,
+#inputAuthorFirst {
+    width: 50%;
+}
+
+#inputISBN {
+    width: 50%;
+}
+
+#inputQty {
+    width: 25%;
+}
+
 li {
-    list-style: none;
+    list-style: square;
+    line-height: 2.5em;
+}
+
+
+.stockList {
+    box-shadow: 0px 2px 1px 0px rgba(150, 150, 150, 1);
+    margin-top:15px;
+    padding: 10px;
 }
 
 h2 {
     -webkit-margin-before: 0.2em;
     -webkit-margin-after: 0.5em;
 }
+
 .inputBook {
+    margin: 0 auto;
     background-color: lightgray;
     box-shadow: 0px 2px 1px 0px rgba(150, 150, 150, 1);
 }
