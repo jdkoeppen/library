@@ -23,23 +23,23 @@
   Populate it with a few books (at least three) to create a starting library.
 */
 const CATALOG = [{
-  bookTitle: "Goodnight Moon",
-  bookAuthorLastName: "Brown",
-  bookAuthorFirstName: "Margaret Wise",
-  bookYear: 1947,
-  bookISBN: "9780060775858",
+  Title: "Goodnight Moon",
+  AuthorLastName: "Brown",
+  AuthorFirstName: "Margaret Wise",
+  Year: 1947,
+  ISBN: "9780060775858",
 }, {
-  bookTitle: "Where the Wild Things Are",
-  bookAuthorLastName: "Sendak",
-  bookAuthorFirstName: "Maurice",
-  bookYear: 1963,
-  bookISBN: "9780099408390",
+  Title: "Where the Wild Things Are",
+  AuthorLastName: "Sendak",
+  AuthorFirstName: "Maurice",
+  Year: 1963,
+  ISBN: "9780099408390",
 }, {
-  bookTitle: "If You Give a Mouse a Cookie",
-  bookAuthorLastName: "Numeroff",
-  bookAuthorFirstName: "Laura Joffe",
-  bookYear: 1985,
-  bookISBN: "9780060245863",
+  Title: "If You Give a Mouse a Cookie",
+  AuthorLastName: "Numeroff",
+  AuthorFirstName: "Laura Joffe",
+  Year: 1985,
+  ISBN: "9780060245863",
 }];
 
 
@@ -60,7 +60,7 @@ const CATALOG = [{
 */
 
 const INVENTORY = {
-  "9780060775858":{ numberOfCopies: 10, numberCheckedOut: 4},
+  "9780060775858": { numberOfCopies: 10, numberCheckedOut: 4},
   "9780099408390": { numberOfCopies: 15, numberCheckedOut: 12},
   "9780060245863": { numberOfCopies: 7, numberCheckedOut: 3},
 }
@@ -76,8 +76,8 @@ const INVENTORY = {
 */
 
 function describeBook(book) {
-  let stock = INVENTORY[book.bookISBN];
-  return `<li>ISBN: ${book.bookISBN} - <strong class="title">${book.bookTitle}</strong> by <em class="author"> ${book.bookAuthorLastName},  ${book.bookAuthorFirstName}</em>,  [${book.bookYear}] -- <strong>(${stock.numberOfCopies - stock.numberCheckedOut} of ${stock.numberOfCopies} available)</strong></li>`;
+  let stock = INVENTORY[book.ISBN];
+  return `<li>ISBN: ${book.ISBN} - <strong class="title">${book.Title}</strong> by <em class="author"> ${book.AuthorLastName}, ${book.AuthorFirstName}</em>, [${book.Year}] -- <strong>(${stock.numberOfCopies - stock.numberCheckedOut} of ${stock.numberOfCopies} available)</strong></li>`;
   console.log("describeBook ran");
   
 }
@@ -123,6 +123,15 @@ function renderBooks() {
   If the number of books is not specified, you should default to 1.
 */
 
+function addBook(bookObject, number) {
+  CATALOG.push(bookObject);
+  let stock = {
+    numberOfCopies: number,
+    numberCheckedOut: 0,
+    }
+  INVENTORY[bookObject.ISBN] = stock;
+  renderBooks();
+  };
 
 
 /*
@@ -130,6 +139,24 @@ function renderBooks() {
   
   On form submit, the form data should be read and put into a new object, which is passed to "addBook".
 */
+
+function watchSubmit() {
+  $("form").submit(function(event) {    
+    event.preventDefault();
+    let num = $(this).find("#inputISBN").val();
+    if (INVENTORY[num]) {
+      console.log ("This book already exists");
+    } else {
+      addBook({
+          Title: $(this).find("#inputTitle").val().trim(),
+          Year: parseInt($(this).find("#inputYear").val(), 10),
+          AuthorLastName: $(this).find("#inputAuthorLast").val().trim(),
+          AuthorFirstName: $(this).find("#inputAuthorFirst").val().trim(),
+          ISBN: $(this).find("#inputISBN").val().trim()
+      }, $(this).find("#inputQty").val().trim() )
+     }
+  });
+}
 
 
 
@@ -141,7 +168,13 @@ function renderBooks() {
   It should return true if the book was found and deleted, and false otherwise.
 */
 
-
+function removeBook(ISBN) {
+  let found = CATALOG.findIndex(book => book.ISBN === ISBN);
+  if(found !== -1) CATALOG.splice(found, 1);
+  delete INVENTORY[ISBN];
+  
+  //look for ISBN in object, if found, delete entire index of array
+}
 
 /*
   10. Write code to set up a click handler for the link or button which removes a book from the library. 
@@ -195,6 +228,7 @@ function renderBooks() {
 
 */
 function renderLibrary() {
+  watchSubmit();
   renderBooks();
   
 }

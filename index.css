@@ -7,6 +7,7 @@ body {
     max-width: 800px;
     margin: 0 auto;
     font-family: 'Alegreya Sans', sans-serif;
+    background-color: whitesmoke;
 }
 
 header {
@@ -61,6 +62,7 @@ li {
 
 
 .stockList {
+    background-color: white;
     box-shadow: 0px 2px 1px 0px rgba(150, 150, 150, 1);
     margin-top:15px;
     padding: 10px;
