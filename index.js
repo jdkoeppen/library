@@ -1,4 +1,3 @@
-
 /** LIBRARY CHALLENGE:
  
  * We will be building a simple app to track books in a library.
@@ -42,9 +41,6 @@ const CATALOG = [{
   ISBN: "9780060245863",
 }];
 
-
-
-
 /*
   2. Make a global constant called INVENTORY which is an object whose keys are the ISBN numbers of the books in the CATALOG array.
   
@@ -60,12 +56,19 @@ const CATALOG = [{
 */
 
 const INVENTORY = {
-  "9780060775858": { numberOfCopies: 10, numberCheckedOut: 4},
-  "9780099408390": { numberOfCopies: 15, numberCheckedOut: 12},
-  "9780060245863": { numberOfCopies: 7, numberCheckedOut: 3},
+  "9780060775858": {
+    numberOfCopies: 10,
+    numberCheckedOut: 4
+  },
+  "9780099408390": {
+    numberOfCopies: 15,
+    numberCheckedOut: 12
+  },
+  "9780060245863": {
+    numberOfCopies: 7,
+    numberCheckedOut: 3
+  },
 }
-
-
 
 /*
   3. Make a "describeBook" function which accepts a book object as its only argument and returns the HTML which represents that book in your list. 
@@ -75,11 +78,18 @@ const INVENTORY = {
   Keep in mind that you will have to display not only the data from the book you are passed, but also find the numbers object associated with its ISBN in the INVENTORY, in order to display the values for total copies and number checked out.
 */
 
+//modify to include checkbox for options
 function describeBook(book) {
   let stock = INVENTORY[book.ISBN];
-  return `<li>ISBN: ${book.ISBN} - <strong class="title">${book.Title}</strong> by <em class="author"> ${book.AuthorLastName}, ${book.AuthorFirstName}</em>, [${book.Year}] -- <strong>(${stock.numberOfCopies - stock.numberCheckedOut} of ${stock.numberOfCopies} available)</strong></li>`;
+  return `<tr><td><input type="checkbox" value= "${book.ISBN}"></td>
+  <td>${book.ISBN}</td>
+  <td class="title">${book.Title}</td>
+  <td class="author">${book.AuthorLastName}, ${book.AuthorFirstName}</td>
+  <td>${book.Year}</td>
+  <td><strong>${stock.numberOfCopies - stock.numberCheckedOut}</td>
+  <td>${stock.numberOfCopies}</strong></td></tr>`;
   console.log("describeBook ran");
-  
+
 }
 
 /*
@@ -90,13 +100,11 @@ function describeBook(book) {
   Pass each book to your "describeBook" function and use its output as the HTML to add to the page.
 */
 
-  
-
 function renderBooks() {
- let bookItems = CATALOG.map(describeBook);
- $(".renderList").html(bookItems.join(''));
+  let bookItems = CATALOG.map(describeBook);
+  $(".renderList").html(bookItems.join(''));
   console.log("renderBook ran")
-  
+
 }
 
 /* 
@@ -107,13 +115,9 @@ function renderBooks() {
 
 */
 
-
-
 /* 
   6. Once you verify that your book list is displaying, now go to your `index.html` and build a form to add a new book. Make sure you add fields for all the relevant book data.
 */
-
-
 
 /*
   7. Make a function called "addBook", which takes two arguments:
@@ -125,14 +129,10 @@ function renderBooks() {
 
 function addBook(bookObject, number) {
   CATALOG.push(bookObject);
-  let stock = {
-    numberOfCopies: number,
-    numberCheckedOut: 0,
-    }
+  let stock = {numberOfCopies: number, numberCheckedOut: 0,};
   INVENTORY[bookObject.ISBN] = stock;
   renderBooks();
-  };
-
+};
 
 /*
   8. Write code which gets called on document ready, setting up a handler for the form's submit event.
@@ -141,24 +141,23 @@ function addBook(bookObject, number) {
 */
 
 function watchSubmit() {
-  $("form").submit(function(event) {    
+  $("form").submit(function (event) {
     event.preventDefault();
     let num = $(this).find("#inputISBN").val();
     if (INVENTORY[num]) {
-      console.log ("This book already exists");
+      alert ("This book has already been added.");
     } else {
       addBook({
-          Title: $(this).find("#inputTitle").val().trim(),
-          Year: parseInt($(this).find("#inputYear").val(), 10),
-          AuthorLastName: $(this).find("#inputAuthorLast").val().trim(),
-          AuthorFirstName: $(this).find("#inputAuthorFirst").val().trim(),
-          ISBN: $(this).find("#inputISBN").val().trim()
-      }, $(this).find("#inputQty").val().trim() )
-     }
+        Title: $(this).find("#inputTitle").val().trim(),
+        Year: parseInt($(this).find("#inputYear").val(), 10),
+        AuthorLastName: $(this).find("#inputAuthorLast").val().trim(),
+        AuthorFirstName: $(this).find("#inputAuthorFirst").val().trim(),
+        ISBN: $(this).find("#inputISBN").val().trim()
+      }, $(this).find("#inputQty").val().trim());
+        $(".inputBook form input").val("").blur();
+    }
   });
 }
-
-
 
 /*
   9. Make a function called "removeBook", which takes one argument: the ISBN of the book to remove.
@@ -170,11 +169,10 @@ function watchSubmit() {
 
 function removeBook(ISBN) {
   let found = CATALOG.findIndex(book => book.ISBN === ISBN);
-  if(found !== -1) CATALOG.splice(found, 1);
+  if (found !== -1) CATALOG.splice(found, 1);
   delete INVENTORY[ISBN];
-  
-  //look for ISBN in object, if found, delete entire index of array
-}
+  return (found >= 0);
+};
 
 /*
   10. Write code to set up a click handler for the link or button which removes a book from the library. 
@@ -191,7 +189,26 @@ function removeBook(ISBN) {
   Just make sure the click event handlers are set up on document ready, as with the form submit handler.
 */
 
+function watchChecks() {
+  $("input:checkbox").click(function(event) {
+    console.log ("check");
+    return $("span button").prop('disabled',$('input:checkbox:checked').length == 0);
+  })
+}
 
+
+//list of checked items to list of ISBN numbers, map removeBook onto array of ISBNs to delete multiple books
+function clickDelete() {
+  $("#delete").click(function(event) {
+    event.preventDefault();
+  $("input:checkbox:checked").each(function () {
+    removeBook($(this).val());
+    renderBooks();
+  });
+});
+  //chain onto the array of .each objects, e.g. .prop(unchecked), etc
+ 
+}
 
 /*
   11. Make functions called "checkOut" and "checkIn" which accept the ISBN as their only argument.
@@ -227,11 +244,12 @@ function removeBook(ISBN) {
     https://repl.it/@victorb/Library-Solution
 
 */
+
 function renderLibrary() {
   watchSubmit();
   renderBooks();
-  
+  watchChecks();
+  clickDelete();
 }
-
 
 $(renderLibrary);

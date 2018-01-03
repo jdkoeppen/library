@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Library Catalog</title>
-  <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700|Work+Sans:400" rel="stylesheet">
   <link href="index.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -16,28 +16,53 @@
 
   <main>
     <div class="inputBook">
-    
+
       <form>
         <fieldset>
           <h2>Add a Title</h2>
-              <label>Use this form to add a book to the library database.</label>
-              <p>
-              <input type=text id="inputTitle" alt="Title" placeholder="Book Title">
-              <input type=number id="inputYear" alt="Year"placeholder="Year"> 
-              <input type=text id="inputAuthorLast" alt="Author Last Name" placeholder="Author Last Name">
-              <input type=text id="inputAuthorFirst" alt="Author First Name" placeholder="Author First Name">
-              <input type=text id="inputISBN" alt="ISBN" placeholder="ISBN">
-              <input type=number id="inputQty" alt="quantity" placeholder="Qty to Add">
-              <button type=submit id="submitBook" alt="submit" >Add Book</button>
-              </p>
+          <label>Use this form to add a book to the library database.</label>
+          <p>
+            <input type=text id="inputTitle" alt="Title" placeholder="Book Title">
+            <input type=number id="inputYear" alt="Year" placeholder="Year">
+            <input type=text id="inputAuthorLast" alt="Author Last Name" placeholder="Author Last Name">
+            <input type=text id="inputAuthorFirst" alt="Author First Name" placeholder="Author First Name">
+            <input type=text id="inputISBN" alt="ISBN" placeholder="ISBN">
+            <input type=number id="inputQty" alt="quantity" placeholder="Qty to Add">
+            <button type=submit id="submitBook" alt="submit">Add Book</button>
+          </p>
         </fieldset>
       </form>
     </div>
     <div class="stockList">
       <h2>Books in Stock</h2>
-     <ul class = "renderList">
+      <form class="listEdit">
+        <fieldset>
+          <span>
+            <button type="button" id="checkOut" alt="Check Out" disabled>Check Out</button>
+            <button type="button" id="checkIn" alt="Check In" disabled>Check In</button>
+            <button type="button" id="delete" alt="delete" disabled>Delete</button>
+          </span>
+        </fieldset>
+      </form>
+      <table class="bookList">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>Available</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody class="renderList">
 
-     </ul>
+        </tbody>
+      </table>
+      <!--<ul class = "renderList">
+
+     </ul> -->
     </div>
   </main>
   <!--
@@ -68,7 +93,7 @@
 
   <!-- Don't forget to include jQuery! -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
   <script src="index.js"></script>
 
 </body>

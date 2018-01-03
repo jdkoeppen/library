@@ -19,15 +19,17 @@ fieldset {
     border: none;
 }
 
-form input,
-form button {
+.inputBook input,
+.inputBook button {
     box-sizing: border-box;
     float: left;
     font-size: 18px;
+    padding: 2px;
 }
 
-.title, .author {
-    font-size: 1.2em;
+.inputBook h2 {
+    -webkit-margin-before: 0.2em;
+    -webkit-margin-after: 0.8em;
 }
 
 .title {
@@ -60,17 +62,64 @@ li {
     line-height: 2.5em;
 }
 
+.listEdit button {
+    float: right;
+    margin-bottom: 6px;
+    margin-left: 4px;
+    font-family: "Work Sans", sans-serif;
+    font-size: .8em;
+}
+
+.listEdit fieldset {
+    padding: 0;
+    margin-right: 0;
+}
+
+table {
+    font-family: "Work Sans", sans-serif;
+    width: 100%;
+    display: table;
+    border-collapse: collapse;
+}
+
+thead {
+    font-size: .85em;
+    border: 1px solid gray;
+}
+
+th {
+    padding-top: 4px;
+    padding-bottom: 3px;
+    border-right: 1px solid gray;
+}
+
+tbody {
+    display: table-row-group;
+}
+
+td {
+    font-size: .8em;
+    padding: 5px 3px;
+    text-align: center;
+    border-bottom: 1px solid lightgray;
+}
+
+tbody .author,
+tbody .title {
+    text-align: left;
+    padding-left: 3px;
+}
 
 .stockList {
     background-color: white;
     box-shadow: 0px 2px 1px 0px rgba(150, 150, 150, 1);
-    margin-top:15px;
+    margin-top: 15px;
     padding: 10px;
 }
 
-h2 {
+.stockList h2 {
     -webkit-margin-before: 0.2em;
-    -webkit-margin-after: 0.5em;
+    -webkit-margin-after: 2px;
 }
 
 .inputBook {
