@@ -62,7 +62,7 @@ li {
     line-height: 2.5em;
 }
 
-.listEdit #delete {
+.listEdit #delete, .listEdit #removeCopy {
     margin-left: 25px;
 }
 

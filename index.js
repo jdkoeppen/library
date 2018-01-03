@@ -65,8 +65,8 @@ const INVENTORY = {
     numberCheckedOut: 12
   },
   "9780060245863": {
-    numberOfCopies: 7,
-    numberCheckedOut: 3
+    numberOfCopies: 1,
+    numberCheckedOut: 0
   },
 }
 
@@ -169,12 +169,6 @@ function watchSubmit() {
   It should return true if the book was found and deleted, and false otherwise.
 */
 
-function removeBook(ISBN) {
-  let found = CATALOG.findIndex(book => book.ISBN === ISBN);
-  if (found !== -1) CATALOG.splice(found, 1);
-  delete INVENTORY[ISBN];
-  return (found >= 0);
-};
 
 /*
   10. Write code to set up a click handler for the link or button which removes a book from the library. 
@@ -203,10 +197,19 @@ function clickDelete() {
     event.preventDefault();
     $("input:checkbox:checked").each(function () {
       removeBook($(this).val());
+      $("span button").prop('disabled', $('input:checkbox:checked').length == 0);
       renderBooks();
+
     });
   });
 }
+
+function removeBook(ISBN) {
+  let found = CATALOG.findIndex(book => book.ISBN === ISBN);
+  if (found !== -1) CATALOG.splice(found, 1);
+  delete INVENTORY[ISBN];
+  return (found >= 0);
+};
 
 /*
   11. Make functions called "checkOut" and "checkIn" which accept the ISBN as their only argument.
@@ -238,15 +241,15 @@ function clickCheckIn() {
 }
 
 function checkOut(ISBN) {
-  let found = CATALOG.findIndex(book => book.ISBN === ISBN);
-    if(found !== -1) INVENTORY[ISBN].numberCheckedOut++;
-      renderBooks();  
+  let number = INVENTORY[ISBN];
+  if (number) INVENTORY[ISBN].numberCheckedOut++;
+  renderBooks();
 }
 
 function checkIn(ISBN) {
-  let found = CATALOG.findIndex(book => book.ISBN === ISBN);
-  if (found !== -1) INVENTORY[ISBN].numberCheckedOut--;
-    renderBooks();
+  let number = INVENTORY[ISBN];
+  if (number) INVENTORY[ISBN].numberCheckedOut--;
+  renderBooks();
 }
 
 /* 
@@ -254,8 +257,39 @@ function checkIn(ISBN) {
 
   If a book's inventory is reduced to 0, then it should not be available for check out, but it should also not be deleted completely by removeBook().
 */
+function clickAdd() {
+  $("#addCopy").click(function (event) {
+    event.preventDefault();
+    $("input:checkbox:checked").each(function () {
+      addCopy($(this).val());
+      renderBooks();
+    });
+  });
+}
 
+function clickRemove() {
+  $("#removeCopy").click(function (event) {
+    event.preventDefault();
+    $("input:checkbox:checked").each(function () {
+      removeCopy($(this).val());
+      renderBooks();
+    });
+  });
+}
 
+function addCopy(ISBN) {
+  let number = INVENTORY[ISBN];
+  if (number) INVENTORY[ISBN].numberOfCopies++;
+  renderBooks();
+}
+
+function removeCopy(ISBN) {
+  let number = INVENTORY[ISBN];
+  if (number.numberOfCopies > 0) {
+    INVENTORY[ISBN].numberOfCopies--;
+  } 
+  renderBooks();
+}
 
 /* 
   13. STRETCH GOAL (good prep for the fundamentals exam "data merge" challenge)
@@ -272,6 +306,8 @@ function checkIn(ISBN) {
 
 */
 
+
+
 function renderLibrary() {
   watchSubmit();
   renderBooks();
@@ -279,6 +315,8 @@ function renderLibrary() {
   clickDelete();
   clickCheckOut();
   clickCheckIn();
+  clickAdd();
+  clickRemove();
 }
 
 $(renderLibrary);
