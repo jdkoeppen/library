@@ -78,7 +78,6 @@ const INVENTORY = {
   Keep in mind that you will have to display not only the data from the book you are passed, but also find the numbers object associated with its ISBN in the INVENTORY, in order to display the values for total copies and number checked out.
 */
 
-//modify to include checkbox for options
 function describeBook(book) {
   let stock = INVENTORY[book.ISBN];
   return `<tr><td><input type="checkbox" value= "${book.ISBN}"></td>
@@ -129,7 +128,10 @@ function renderBooks() {
 
 function addBook(bookObject, number) {
   CATALOG.push(bookObject);
-  let stock = {numberOfCopies: number, numberCheckedOut: 0,};
+  let stock = {
+    numberOfCopies: number,
+    numberCheckedOut: 0,
+  };
   INVENTORY[bookObject.ISBN] = stock;
   renderBooks();
 };
@@ -145,7 +147,7 @@ function watchSubmit() {
     event.preventDefault();
     let num = $(this).find("#inputISBN").val();
     if (INVENTORY[num]) {
-      alert ("This book has already been added.");
+      alert("This book has already been added.");
     } else {
       addBook({
         Title: $(this).find("#inputTitle").val().trim(),
@@ -154,7 +156,7 @@ function watchSubmit() {
         AuthorFirstName: $(this).find("#inputAuthorFirst").val().trim(),
         ISBN: $(this).find("#inputISBN").val().trim()
       }, $(this).find("#inputQty").val().trim());
-        $(".inputBook form input").val("").blur();
+      $(".inputBook form input").val("").blur();
     }
   });
 }
@@ -190,24 +192,20 @@ function removeBook(ISBN) {
 */
 
 function watchChecks() {
-  $("input:checkbox").click(function(event) {
-    console.log ("check");
-    return $("span button").prop('disabled',$('input:checkbox:checked').length == 0);
+  $("input:checkbox").click(function (event) {
+    console.log("check");
+    return $("span button").prop('disabled', $('input:checkbox:checked').length == 0);
   })
 }
 
-
-//list of checked items to list of ISBN numbers, map removeBook onto array of ISBNs to delete multiple books
 function clickDelete() {
-  $("#delete").click(function(event) {
+  $("#delete").click(function (event) {
     event.preventDefault();
-  $("input:checkbox:checked").each(function () {
-    removeBook($(this).val());
-    renderBooks();
+    $("input:checkbox:checked").each(function () {
+      removeBook($(this).val());
+      renderBooks();
+    });
   });
-});
-  //chain onto the array of .each objects, e.g. .prop(unchecked), etc
- 
 }
 
 /*
@@ -219,8 +217,37 @@ function clickDelete() {
   
   Also add the proper event handlers to call these functions when users click on whatever links or buttons you choose to make for checking in and out books.
 */
+function clickCheckOut() {
+  $("#checkOut").click(function (event) {
+    event.preventDefault();
+    $("input:checkbox:checked").each(function () {
+      checkOut($(this).val());
+      renderBooks();
+    });
+  });
+}
 
+function clickCheckIn() {
+  $("#checkIn").click(function (event) {
+    event.preventDefault();
+    $("input:checkbox:checked").each(function () {
+      checkIn($(this).val());
+      renderBooks();
+    });
+  });
+}
 
+function checkOut(ISBN) {
+  let found = CATALOG.findIndex(book => book.ISBN === ISBN);
+    if(found !== -1) INVENTORY[ISBN].numberCheckedOut++;
+      renderBooks();  
+}
+
+function checkIn(ISBN) {
+  let found = CATALOG.findIndex(book => book.ISBN === ISBN);
+  if (found !== -1) INVENTORY[ISBN].numberCheckedOut--;
+    renderBooks();
+}
 
 /* 
   12. Add similar functions "addCopy" and "removeCopy" which accept an ISBN and increase or decrease the number of that book in the INVENTORY. 
@@ -250,6 +277,8 @@ function renderLibrary() {
   renderBooks();
   watchChecks();
   clickDelete();
+  clickCheckOut();
+  clickCheckIn();
 }
 
 $(renderLibrary);
