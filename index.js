@@ -169,7 +169,6 @@ function watchSubmit() {
   It should return true if the book was found and deleted, and false otherwise.
 */
 
-
 /*
   10. Write code to set up a click handler for the link or button which removes a book from the library. 
   
@@ -241,14 +240,14 @@ function clickCheckIn() {
 }
 
 function checkOut(ISBN) {
-  let number = INVENTORY[ISBN];
-  if (number) INVENTORY[ISBN].numberCheckedOut++;
+  let stock = INVENTORY[ISBN];
+  if (stock) INVENTORY[ISBN].numberCheckedOut++;
   renderBooks();
 }
 
 function checkIn(ISBN) {
-  let number = INVENTORY[ISBN];
-  if (number) INVENTORY[ISBN].numberCheckedOut--;
+  let stock = INVENTORY[ISBN];
+  if (stock) INVENTORY[ISBN].numberCheckedOut--;
   renderBooks();
 }
 
@@ -257,6 +256,7 @@ function checkIn(ISBN) {
 
   If a book's inventory is reduced to 0, then it should not be available for check out, but it should also not be deleted completely by removeBook().
 */
+
 function clickAdd() {
   $("#addCopy").click(function (event) {
     event.preventDefault();
@@ -278,14 +278,14 @@ function clickRemove() {
 }
 
 function addCopy(ISBN) {
-  let number = INVENTORY[ISBN];
-  if (number) INVENTORY[ISBN].numberOfCopies++;
+  let stock = INVENTORY[ISBN];
+  if (stock) INVENTORY[ISBN].numberOfCopies++;
   renderBooks();
 }
 
 function removeCopy(ISBN) {
-  let number = INVENTORY[ISBN];
-  if (number.numberOfCopies > 0) {
+  let stock = INVENTORY[ISBN];
+  if (stock.numberOfCopies > 0) {
     INVENTORY[ISBN].numberOfCopies--;
   } 
   renderBooks();
@@ -306,6 +306,25 @@ function removeCopy(ISBN) {
 
 */
 
+
+
+function generateReport() {
+  return CATALOG.map(book => {
+    let ISBN = book.ISBN;
+    let stock = INVENTORY[ISBN];
+    let result = {
+      ISBN: book.ISBN,
+      title: book.Title,
+      authorLastName: book.AuthorLastName,
+      authorFirstName: book.AuthorFirstName,
+      year: book.Year,
+      numberOfCopies: stock.numberOfCopies,
+      numberCheckedOut: stock.numberCheckedOut
+    }; console.log(result);
+       return result
+  }); 
+  
+}
 
 
 function renderLibrary() {
