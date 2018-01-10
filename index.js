@@ -97,17 +97,12 @@ function describeBook(book) {
   Create a container in `index.html` to find with jQuery and populate with your list of books.
   
   Pass each book to your "describeBook" function and use its output as the HTML to add to the page.
-  */
-  function clearButtons() {
-      return $("span button").prop('disabled', $('input:checkbox:checked').length == 0);
-    }
-  
+*/
+
 function renderBooks() {
   let bookItems = CATALOG.map(describeBook);
   $(".renderList").html(bookItems.join(''));
-  console.log("renderBook ran");
-  clearButtons();
-
+  console.log("renderBook ran")
 
 }
 
@@ -190,9 +185,9 @@ function watchSubmit() {
 */
 
 function watchChecks() {
-  $("table.bookList").on("click", "input:checkbox", function (event) {
+  $("input:checkbox").click(function (event) {
     console.log("check");
-    clearButtons();
+    return $("span button").prop('disabled', $('input:checkbox:checked').length == 0);
   })
 }
 
@@ -201,7 +196,9 @@ function clickDelete() {
     event.preventDefault();
     $("input:checkbox:checked").each(function () {
       removeBook($(this).val());
+      $("span button").prop('disabled', $('input:checkbox:checked').length == 0);
       renderBooks();
+
     });
   });
 }
