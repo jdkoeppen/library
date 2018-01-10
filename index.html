@@ -12,9 +12,7 @@
 <body>
   <header>
     <h1>Library Catalog Access Terminal</h1>
-  </header>
 
-  <main>
     <div class="inputBook">
 
       <form>
@@ -33,6 +31,8 @@
         </fieldset>
       </form>
     </div>
+  </header>
+  <main>
     <div class="stockList">
       <h2>Books in Stock</h2>
       <form class="listEdit">
@@ -44,26 +44,26 @@
             <button type="button" id="checkIn" alt="Check In" disabled>Check In</button>
             <button type="button" id="checkOut" alt="Check Out" disabled>Check Out</button>
           </span>
+          <table class="bookList">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>ISBN</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year</th>
+                <th>Available</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody class="renderList">
+
+            </tbody>
+          </table>
         </fieldset>
       </form>
-      <table class="bookList">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>ISBN</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Year</th>
-            <th>Available</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody class="renderList">
-
-        </tbody>
-      </table>
     </div>
-   
+
   </main>
   <!--
       LIBRARY CHALLENGE:
